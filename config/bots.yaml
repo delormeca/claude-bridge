@@ -1,0 +1,46 @@
+# bots.yaml — declare one entry per OpenBot coworker.
+#
+# Paths in persona_file / mcp_config / agents are resolved relative to
+# this file's directory.
+#
+# Required fields per bot:
+#   - id
+# Optional:
+#   - persona_file     (markdown system prompt appended to every turn)
+#   - allowed_tools    (list, e.g. ["Read", "Bash", "mcp__playwright__*"])
+#   - mcp_config       (JSON file with MCP server definitions)
+#   - agents           (JSON file with custom sub-agent definitions)
+#   - default_model    (default: claude-sonnet-4-5)
+#   - workspace        (default: <WORKSPACE_BASE>/<bot_id>)
+#   - extra_args       (list, extra CLI flags passed to `claude`)
+
+bots:
+  - id: example-bot
+    persona_file: personas/example.md
+    allowed_tools:
+      - Read
+      - Bash
+      - WebFetch
+    mcp_config: mcps/example.json
+    default_model: claude-sonnet-4-5
+    # workspace: /workspace/example-bot
+
+  # - id: sales-researcher
+  #   persona_file: personas/sales-researcher.md
+  #   allowed_tools:
+  #     - Read
+  #     - Bash
+  #     - WebFetch
+  #     - mcp__playwright__*
+  #   mcp_config: mcps/sales-researcher.json
+  #   default_model: claude-sonnet-4-5
+  #
+  # - id: code-reviewer
+  #   persona_file: personas/code-reviewer.md
+  #   allowed_tools:
+  #     - Read
+  #     - Grep
+  #     - Glob
+  #     - "Bash(git *)"
+  #     - "Bash(ls *)"
+  #   default_model: claude-opus-4-1

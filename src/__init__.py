@@ -1,0 +1,1 @@
+"""claude-bridge: thin HTTP bridge wrapping persistent Claude Code REPLs for OpenBot."""

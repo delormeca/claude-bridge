@@ -1,0 +1,29 @@
+services:
+  claude-bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: claude-bridge:latest
+    container_name: claude-bridge
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      # Read-only credential pool (subscriptions were set up on the host with `claude auth login`).
+      - /etc/claude-pool:/etc/claude-pool:ro
+      # Per-Bot workspaces — typically OpenBot-managed volumes, mounted here so the bridge can set cwd.
+      - /workspace:/workspace
+      # Writable registry
+      - bridge-registry:/var/lib/claude-bridge
+      # Bot config (bots.yaml + personas + mcps)
+      - ./config:/etc/claude-bridge/config:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:4203/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  bridge-registry:
