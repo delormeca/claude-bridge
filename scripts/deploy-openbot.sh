@@ -51,9 +51,15 @@ prompt() {
   local var="$1" desc="$2"
   local current="${!var:-}"
   if [[ -n "$current" ]]; then
-    printf '%s = (set, press Enter to keep): ' "$desc" >&2
-    read -r value < /dev/tty
-    [[ -z "$value" ]] && value="$current"
+    # Value is already set (via env or prior). Use it without prompting if running non-interactively.
+    if [[ -t 0 ]] && [[ -z "${DEPLOY_NONINTERACTIVE:-}" ]]; then
+      printf '%s = (set, press Enter to keep): ' "$desc" >&2
+      read -r value < /dev/tty
+      [[ -z "$value" ]] && value="$current"
+    else
+      printf '%s = (preset)\n' "$desc" >&2
+      value="$current"
+    fi
   else
     printf '%s: ' "$desc" >&2
     read -r value < /dev/tty
