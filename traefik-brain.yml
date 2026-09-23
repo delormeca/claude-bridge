@@ -1,0 +1,15 @@
+http:
+  routers:
+    brain:
+      rule: 'Host(`brain.delorme.ca`)'
+      service: brain
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: mytlschallenge
+
+  services:
+    brain:
+      loadBalancer:
+        servers:
+          - url: http://72.61.64.93:3000
