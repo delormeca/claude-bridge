@@ -43,4 +43,4 @@ EXPOSE 4203
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl -fsS http://127.0.0.1:4203/healthz || exit 1
 
-CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "127.0.0.1", "--port", "4203"]
+CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "4203"]
